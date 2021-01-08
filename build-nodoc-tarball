@@ -2,7 +2,7 @@
 
 set -ex
 
-GMP_VERSION=6.1.2
+GMP_VERSION=6.2.1
 
 GMP_TARBALL=gmp-${GMP_VERSION}.tar.bz2
 GMP_SIGNATURE=gmp-${GMP_VERSION}.tar.bz2.sig
