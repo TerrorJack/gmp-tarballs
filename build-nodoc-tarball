@@ -12,7 +12,7 @@ GMP_DOWNLOAD_SIGNATURE=https://gmplib.org/download/gmp/${GMP_SIGNATURE}
 
 wget "$GMP_DOWNLOAD_TARBALL"
 wget "$GMP_DOWNLOAD_SIGNATURE"
-gpg --keyserver keys.gnupg.net --recv-keys 0x28C67298
+gpg --keyserver keyserver.ubuntu.com --recv-keys 343C2FF0FBEE5EC2EDBEF399F3599FF828C67298
 gpg --verify "$GMP_SIGNATURE" "$GMP_TARBALL"
 # Fingerprint is okay
 rm "$GMP_SIGNATURE"
