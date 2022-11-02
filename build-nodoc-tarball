@@ -17,9 +17,14 @@ gpg --verify "$GMP_SIGNATURE" "$GMP_TARBALL"
 # Fingerprint is okay
 rm "$GMP_SIGNATURE"
 
-bunzip2 "$GMP_TARBALL"
+tar -xjf "$GMP_TARBALL"
+cd gmp-${GMP_VERSION}
+rm -r doc
+patch -p1 < ../patch.diff
+cd ..
 UNCOMPRESSED_TARBALL=${GMP_TARBALL%.bz2}
-tar --delete --file="$UNCOMPRESSED_TARBALL" gmp-${GMP_VERSION}/doc
+tar -c --sort=name --mtime=0 --owner=0 --group=0 --numeric-owner -f ${UNCOMPRESSED_TARBALL} gmp-${GMP_VERSION}
+rm -r gmp-${GMP_VERSION}
 mv ${UNCOMPRESSED_TARBALL} out-${UNCOMPRESSED_TARBALL}
 bzip2 out-"$UNCOMPRESSED_TARBALL"
 echo "Output tarball is in out-$GMP_TARBALL"

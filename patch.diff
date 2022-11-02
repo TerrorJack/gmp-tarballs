@@ -1,0 +1,49 @@
+diff --git a/errno.c b/errno.c
+index b4be555..ccaf07d 100644
+--- a/errno.c
++++ b/errno.c
+@@ -34,7 +34,9 @@ see https://www.gnu.org/licenses/.  */
+
+ #include <stdlib.h>
+
++#ifdef HAVE_RAISE
+ #include <signal.h>
++#endif
+
+ #include "gmp-impl.h"
+
+diff --git a/invalid.c b/invalid.c
+index e09eab2..1d70f33 100644
+--- a/invalid.c
++++ b/invalid.c
+@@ -34,7 +34,10 @@ see https://www.gnu.org/licenses/.  */
+
+ #include "config.h"
+
++#ifdef HAVE_RAISE
+ #include <signal.h>
++#endif
++
+ #include <stdlib.h>
+
+ #if HAVE_UNISTD_H
+@@ -47,7 +50,7 @@ see https://www.gnu.org/licenses/.  */
+ /* Incidentally, kill is not available on mingw, but that's ok, it has raise
+    and we'll be using that.  */
+ #if ! HAVE_RAISE
+-#define raise(sig)   kill (getpid(), sig)
++#define raise(sig)   exit(sig)
+ #endif
+
+
+@@ -77,6 +80,10 @@ see https://www.gnu.org/licenses/.  */
+ void
+ __gmp_invalid_operation (void)
+ {
++#ifdef SIGFPE
+   raise (SIGFPE);
++#else
++  __gmp_junk = 10 / __gmp_0;
++#endif
+   abort ();
+ }
